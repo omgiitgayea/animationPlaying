@@ -84,7 +84,7 @@ function startGame() {
                 for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
                     document.getElementsByClassName('baseSquare')[i].clicked = true;
                 }
-                document.getElementById('silly').innerHTML = 'Awww, you lost :('
+                document.getElementById('silly').innerHTML = 'Awww, you lost :(';
                 revealField();
             }
             else {
@@ -98,7 +98,7 @@ function startGame() {
                     for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
                         document.getElementsByClassName('baseSquare')[i].clicked = true;
                     }
-                    document.getElementById('silly').innerHTML = 'Yay! You won!'
+                    document.getElementById('silly').innerHTML = 'Yay! You won!';
                     revealField();
                 }
             }
