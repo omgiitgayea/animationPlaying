@@ -1,7 +1,7 @@
 /**
  * Created by Godai Yuusaku on 10/4/2016.
  */
-// (function ()
+// var myGame = (function ()
 // {
 function startGame() {
     document.getElementById('gameInit').style.display = 'none';
@@ -12,7 +12,9 @@ function startGame() {
     var bombsArray = [];
     var BOMB_RATE = 0.2;
     var numCorrect = 0;
+    var flagged = 0;
     var numBombs = Math.round(size * size * BOMB_RATE);
+    var gameOver = false;
 
     buildBoard();
     setBombs();
@@ -43,6 +45,10 @@ function startGame() {
                 block.onclick = function () {
                     checkBombs(this);
                 };
+                block.oncontextmenu = function (event) {
+                    event.preventDefault();
+                    flagBox(this);
+                }
                 row.appendChild(block);
             }
             document.getElementById('gameBoard').appendChild(row);
@@ -54,6 +60,25 @@ function startGame() {
             var newBomb = Math.floor(Math.random() * size * size + 0);
             if (bombsArray.indexOf(newBomb) == -1) {
                 bombsArray.push(newBomb);
+            }
+        }
+    }
+
+    function flagBox(obj) {
+        if (!gameOver) {
+            if (!obj.clicked) {
+                obj.innerHTML = '';
+                obj.style.backgroundColor = 'yellow';
+                flagged++;
+                document.getElementById('flags').innerHTML = 'You have flagged ' + flagged + ' spaces.';
+                obj.clicked = true;
+            }
+            else {
+                obj.style.backgroundColor = 'dimgray';
+                obj.clicked = false;
+                obj.innerHTML = '?';
+                flagged--;
+                document.getElementById('flags').innerHTML = 'You have flagged ' + flagged + ' spaces.';
             }
         }
     }
@@ -93,6 +118,9 @@ function startGame() {
                 if (bombs != 0) {
                     obj.innerHTML = bombs;
                 }
+                else {
+                    obj.innerHTML = '';
+                }
                 numCorrect++;
                 if (numCorrect === (size * size - numBombs)) {
                     for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
@@ -111,14 +139,13 @@ function startGame() {
 
         function revealField() {
             var field = document.getElementsByClassName('baseSquare');
-            for (var i = 0; i < size * size; i++)
-            {
-                if(isBomb(i))
-                {
+            gameOver = true;
+            for (var i = 0; i < size * size; i++) {
+                field[i].clicked = true;
+                if (isBomb(i)) {
                     field[i].style.backgroundColor = 'red';
                 }
-                else
-                {
+                else {
                     field[i].style.backgroundColor = 'blue';
                     var bombs = surroundingBombs(i);
                     if (bombs != 0) {
@@ -127,6 +154,7 @@ function startGame() {
                 }
             }
         }
+
         function surroundingBombs(box) {
             var num = 0;
             var searchArea = [];
@@ -175,10 +203,13 @@ function restartGame() {
     document.getElementById('restart').style.display = 'none';
     document.getElementById('gameBoard').innerHTML = '';
     document.getElementById('silly').innerHTML = '';
-    var radios = document.getElementsByName('boardSize');
-    for (var i = 0; i < radios.length; i++) {
-        radios[i].checked = false;
-    }
-    radios[0].checked = true;
+    document.getElementById('flags').innerHTML = '';
 }
 // })()
+// function begin ()
+// {
+//     myGame.startGame();
+// }
+// function end() {
+//     myGame.restartGame();
+// }
