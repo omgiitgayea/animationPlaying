@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <title>Sweeper of Mines</title>
     <link rel="stylesheet" href="css/mineStyle.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
-    <header>
-        Welcome to Sweeper of Mines!
-    </header>
+    <div id="container">
+        <header>
+            Welcome to Sweeper of Mines!
+        </header>
 
-    <div id="gameInit">
-        <div>Select your board size:</div>
+        <div id="gameInit">
+            <div>Select your board size:</div>
 
-        <input id="fives" type="radio" name="boardSize" value="5" checked><label for="fives">5 &times; 5</label>
-        <input id="tens" type="radio" name="boardSize" value="10"><label for="tens">10 &times; 10</label>
-        <input id="fifteens" type="radio" name="boardSize" value="15"><label for="fifteens">15 &times; 15</label>
-        <button onclick="startGame()">Start Game</button>
+            <input id="fives" type="radio" name="boardSize" value="5" checked><label for="fives">5 &times; 5</label>
+            <input id="tens" type="radio" name="boardSize" value="10"><label for="tens">10 &times; 10</label>
+            <input id="fifteens" type="radio" name="boardSize" value="15"><label for="fifteens">15 &times; 15</label>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div id="gameBoard"></div>
+        <div id="silly"></div>
+        <div id="flags"></div>
+        <button id="restart" onclick="restartGame()">Restart Game</button>
     </div>
-    <div id="gameBoard"></div>
-    <div id="silly"></div>
-    <div id="flags"></div>
-    <button id="restart" onclick="restartGame()">Restart Game</button>
 
     <script src="js/mineSweep.js"></script>
 </body>

@@ -10,7 +10,7 @@ function startGame() {
 
     var size = getSize();
     var bombsArray = [];
-    var BOMB_RATE = 0.2;
+    var BOMB_RATE = 0.1;
     var numCorrect = 0;
     var flagged = 0;
     var numBombs = Math.round(size * size * BOMB_RATE);
@@ -156,14 +156,30 @@ function startGame() {
 
         //find number of bombs surrounding clicked box (this is where the recursion would go, may need to recode)
         function surroundingBombs(box) {
-            var nearBombs = checkArea(box);
-            var thisBox = document.getElementsByClassName('baseSquare')[box];
-            thisBox.style.backgroundColor = 'blue';
-            thisBox.clicked = true;
-            numCorrect++;
-            if (nearBombs === 0)
-            {
-                console.log('No Bombs!');
+            if (box >=0 && box < (size * size)) {
+                var thisBox = document.getElementsByClassName('baseSquare')[box];
+                if (!thisBox.clicked) {
+                    var nearBombs = checkArea(box);
+                    thisBox.style.backgroundColor = 'blue';
+                    thisBox.clicked = true;
+                    numCorrect++;
+                    if (nearBombs === 0) {
+                        surroundingBombs(box - size);
+                        surroundingBombs(box + size);
+                        if ((box % size) >= 0 && (box % size) < (size - 1))
+                        {
+                            surroundingBombs(box + 1);
+                            surroundingBombs(box - size + 1);
+                            surroundingBombs(box + size + 1);
+                        }
+                        if ((box % size) > 0 && (box % size) <= (size - 1))
+                        {
+                            surroundingBombs(box - 1);
+                            surroundingBombs(box - size - 1);
+                            surroundingBombs(box + size - 1);
+                        }
+                    }
+                }
             }
         }
 
