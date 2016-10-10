@@ -4,17 +4,35 @@ body, html
     margin: 0;
     padding: 0;
     height: 100%;
+    background-color: #122b40;
 }
 
 #container
 {
-    width: 80%;
-    margin-left: 10%;
+    width: 60%;
+    margin: 0 auto;
 }
+
+header
+{
+    font-size: 50px;
+    text-align: center;
+}
+
+#gameBoard
+{
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top:10px;
+    background-color: #761c19;
+    box-shadow: 5px 5px 5px black;
+    display: none;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
 .baseSquare
 {
-    width: 30px;
-    height: 30px;
     background-color: dimgray;
     border: 1px solid black;
     display: inline-block;

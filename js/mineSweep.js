@@ -7,10 +7,13 @@ function startGame() {
     document.getElementById('gameInit').style.display = 'none';
     document.getElementById('restart').style.display = 'block';
 
+    var BOMB_RATE = 0.1;
+    var BOX_SIZE = 30; //in pixels
+    var GAME_PADDING = 10; //in pixels
+    var BOX_BORDER = 1; //in pixels
 
     var size = getSize();
     var bombsArray = [];
-    var BOMB_RATE = 0.1;
     var numCorrect = 0;
     var flagged = 0;
     var numBombs = Math.round(size * size * BOMB_RATE);
@@ -22,15 +25,16 @@ function startGame() {
     document.getElementById('silly').innerHTML = 'There are ' + numBombs + ' bombs here.';
 
     function getSize() {
-        var size = 0;
         var radios = document.getElementsByName('boardSize');
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                size = radios[i].value;
-                break;
-            }
+        var i = 0;
+
+        while (!radios[i].checked)
+        {
+            i++;
         }
-        return Number(size);
+
+        var userSize = radios[i].value;
+        return Number(userSize);
     }
 
     function buildBoard() {
@@ -42,6 +46,8 @@ function startGame() {
                 block.className = 'baseSquare';
                 block.clicked = false;
                 block.innerHTML = "";
+                block.style.width = BOX_SIZE + 'px';
+                block.style.height = BOX_SIZE + 'px';
                 block.onclick = function () {
                     checkBombs(this);
                 };
@@ -53,6 +59,8 @@ function startGame() {
             }
             document.getElementById('gameBoard').appendChild(row);
         }
+        document.getElementById('gameBoard').style.display = 'block';
+        document.getElementById('gameBoard').style.width = size * (BOX_SIZE + 2 * BOX_BORDER) + GAME_PADDING + 'px';
     }
 
     function setBombs() {
@@ -253,6 +261,7 @@ function startGame() {
 function restartGame() {
     document.getElementById('gameInit').style.display = 'block';
     document.getElementById('restart').style.display = 'none';
+    document.getElementById('gameBoard').style.display = 'none';
     document.getElementById('gameBoard').innerHTML = '';
     document.getElementById('silly').innerHTML = '';
     document.getElementById('flags').innerHTML = '';
