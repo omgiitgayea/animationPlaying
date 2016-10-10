@@ -70,7 +70,6 @@ function startGame() {
                 obj.innerHTML = '';
                 obj.style.backgroundColor = 'yellow';
                 flagged++;
-                document.getElementById('flags').innerHTML = 'You have flagged ' + flagged + ' spaces.';
                 obj.clicked = true;
             }
             else {
@@ -78,13 +77,14 @@ function startGame() {
                 obj.clicked = false;
                 obj.innerHTML = '?';
                 flagged--;
-                document.getElementById('flags').innerHTML = 'You have flagged ' + flagged + ' spaces.';
             }
+            document.getElementById('flags').innerHTML = 'You have flagged ' + flagged + ' spaces.';
         }
     }
 
     function checkBombs(obj) {
         if (!obj.clicked) {
+            //identify which box was clicked
             var boxNo = 0;
             for (var i = 0; i < boxes.length; i++) {
                 if (obj === document.getElementsByClassName('baseSquare')[i]) {
@@ -93,6 +93,7 @@ function startGame() {
                 }
             }
 
+            // if the first box clicked is a bomb, move that bomb to another square
             if (numCorrect === 0 && isBomb(boxNo)) {
                 var n = bombsArray.indexOf(boxNo);
                 bombsArray.splice(n, 1);
@@ -104,13 +105,9 @@ function startGame() {
                 }
             }
 
+            // behavior for if a box is a bomb or not
             if (isBomb(boxNo)) {
-                obj.style.backgroundColor = 'red';
-                for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
-                    document.getElementsByClassName('baseSquare')[i].clicked = true;
-                }
-                document.getElementById('silly').innerHTML = 'Awww, you lost :(';
-                revealField();
+                revealField('lost');
             }
             else {
                 obj.style.backgroundColor = 'blue';
@@ -122,12 +119,9 @@ function startGame() {
                     obj.innerHTML = '';
                 }
                 numCorrect++;
+                // puzzle solved
                 if (numCorrect === (size * size - numBombs)) {
-                    for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
-                        document.getElementsByClassName('baseSquare')[i].clicked = true;
-                    }
-                    document.getElementById('silly').innerHTML = 'Yay! You won!';
-                    revealField();
+                    revealField('won');
                 }
             }
             obj.clicked = true;
@@ -137,7 +131,22 @@ function startGame() {
             return (bombsArray.indexOf(box) != -1);
         }
 
-        function revealField() {
+        function revealField(gameCondition) {
+            //makes all boxes unclickable
+            for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
+                document.getElementsByClassName('baseSquare')[i].clicked = true;
+            }
+
+            //display game over text
+            if (gameCondition === 'won')
+            {
+                document.getElementById('silly').innerHTML = 'Yay! You won!';
+            }
+            else {
+                document.getElementById('silly').innerHTML = 'Awww, you lost :(';
+            }
+
+            // reveal the field
             var field = document.getElementsByClassName('baseSquare');
             gameOver = true;
             for (var i = 0; i < size * size; i++) {
@@ -155,6 +164,7 @@ function startGame() {
             }
         }
 
+        //find number of bombs surrounding clicked box (this is where the recursion would go, may need to recode)
         function surroundingBombs(box) {
             var num = 0;
             var searchArea = [];
