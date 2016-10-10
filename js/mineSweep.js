@@ -10,7 +10,7 @@ function startGame() {
 
     var size = getSize();
     var bombsArray = [];
-    var BOMB_RATE = 0.2;
+    var BOMB_RATE = 0.0;
     var numCorrect = 0;
     var flagged = 0;
     var numBombs = Math.round(size * size * BOMB_RATE);
@@ -110,21 +110,13 @@ function startGame() {
                 revealField('lost');
             }
             else {
-                obj.style.backgroundColor = 'blue';
-                var bombs = surroundingBombs(boxNo);
-                if (bombs != 0) {
-                    obj.innerHTML = bombs;
-                }
-                else {
-                    obj.innerHTML = '';
-                }
-                numCorrect++;
+                surroundingBombs(boxNo);
+
                 // puzzle solved
                 if (numCorrect === (size * size - numBombs)) {
                     revealField('won');
                 }
             }
-            obj.clicked = true;
         }
 
         function isBomb(box) {
@@ -156,10 +148,7 @@ function startGame() {
                 }
                 else {
                     field[i].style.backgroundColor = 'blue';
-                    var bombs = surroundingBombs(i);
-                    if (bombs != 0) {
-                        field[i].innerHTML = bombs;
-                    }
+                    surroundingBombs(i);
                 }
             }
         }
@@ -203,7 +192,24 @@ function startGame() {
                     num++;
                 }
             }
-            return num;
+
+            obj = document.getElementsByClassName('baseSquare')[box];
+            obj.style.backgroundColor = 'blue';
+            obj.clicked = true;
+            numCorrect++;
+            if (num != 0) {
+                obj.innerHTML = num;
+            }
+            else {
+                obj.innerHTML = '';
+                // var testCount = 0;
+                // for (var i = 0; i < searchArea.length; i++)
+                // {
+                //     surroundingBombs(searchArea[i]);
+                //     testCount++;
+                // }
+                // console.log(testCount);
+            }
         }
     }
 }
