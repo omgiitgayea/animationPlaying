@@ -7,4 +7,11 @@
  * The program should show the same numbers but sorted.
  * - Cannot use array.sort()
  * - Must use an array, a loop, a conditional
+ *
+ * Optional
+ * - check if there are actually 5 numbers
+ * - check if they are actually numbers
+ *
+ * Things to consider:
+ * - convert string to an array of numbers (since I'm checking that they elements are all numbers)
  **/
