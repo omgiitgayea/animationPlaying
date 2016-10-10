@@ -145,6 +145,7 @@ function startGame() {
                 field[i].clicked = true;
                 if (isBomb(i)) {
                     field[i].style.backgroundColor = 'red';
+                    field[i].innerHTML = '';
                 }
                 else {
                     field[i].style.backgroundColor = 'blue';
