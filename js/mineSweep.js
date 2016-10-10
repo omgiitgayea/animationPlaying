@@ -10,7 +10,7 @@ function startGame() {
 
     var size = getSize();
     var bombsArray = [];
-    var BOMB_RATE = 0.0;
+    var BOMB_RATE = 0.2;
     var numCorrect = 0;
     var flagged = 0;
     var numBombs = Math.round(size * size * BOMB_RATE);
@@ -148,68 +148,88 @@ function startGame() {
                 }
                 else {
                     field[i].style.backgroundColor = 'blue';
-                    surroundingBombs(i);
+                    checkArea(i);
                 }
             }
         }
 
         //find number of bombs surrounding clicked box (this is where the recursion would go, may need to recode)
         function surroundingBombs(box) {
+            var nearBombs = checkArea(box);
+            var thisBox = document.getElementsByClassName('baseSquare')[box];
+            thisBox.style.backgroundColor = 'blue';
+            thisBox.clicked = true;
+            numCorrect++;
+            if (nearBombs === 0)
+            {
+                surroundingBombs(box - size);
+                console.log('No Bombs!');
+            }
+        }
+
+        function checkArea(box)
+        {
             var num = 0;
-            var searchArea = [];
-
-            // if not on the right side
-            if ((box % size) != (size - 1)) {
-                searchArea.push(box + 1);
+            num += checkSides(box);
+            if (box >= size)
+            {
+                num += checkAbove(box);
             }
-            // if not on the left side
-            if ((box % size) != 0) {
-                searchArea.push(box - 1);
-            }
-            // if not on the bottom
-            if (box >= size) {
-                searchArea.push(box - size);
-                if ((box % size) != (size - 1)) {
-                    searchArea.push(box - size + 1);
-                }
-                if ((box % size) != 0) {
-                    searchArea.push(box - size - 1);
-                }
-            }
-            // if not on the top
-            if ((box + size) < (size * size)) {
-                searchArea.push(box + size);
-                if ((box % size) != 0) {
-                    searchArea.push(box + size - 1);
-                }
-                if ((box % size) != (size - 1)) {
-                    searchArea.push(box + size + 1);
-                }
+            if ((box + size) < (size * size))
+            {
+                num += checkBelow(box);
             }
 
-            for (var i = 0; i < searchArea.length; i++) {
-                if (isBomb(searchArea[i])) {
+            var thisBox = document.getElementsByClassName('baseSquare')[box];
+            if (num != 0) {
+                thisBox.innerHTML = num;
+            }
+            else {
+                thisBox.innerHTML = '';
+            }
+            return num;
+        }
+
+        function checkAbove(box)
+        {
+            var num = 0;
+            if (isBomb(box - size))
+            {
+                num++;
+            }
+            num += checkSides(box - size);
+            return num;
+        }
+
+        function checkBelow(box)
+        {
+            var num = 0;
+            if (isBomb(box + size))
+            {
+                num++;
+            }
+            num+= checkSides(box + size);
+            return num;
+        }
+
+        function checkSides(box)
+        {
+            var num = 0;
+            if (box % size != 0)
+            {
+                if (isBomb(box - 1))
+                {
                     num++;
                 }
             }
-
-            obj = document.getElementsByClassName('baseSquare')[box];
-            obj.style.backgroundColor = 'blue';
-            obj.clicked = true;
-            numCorrect++;
-            if (num != 0) {
-                obj.innerHTML = num;
+            if ((box % size) != (size -1))
+            {
+                if (isBomb(box + 1))
+                {
+                    num++;
+                }
             }
-            else {
-                obj.innerHTML = '';
-                // var testCount = 0;
-                // for (var i = 0; i < searchArea.length; i++)
-                // {
-                //     surroundingBombs(searchArea[i]);
-                //     testCount++;
-                // }
-                // console.log(testCount);
-            }
+            return num;
         }
     }
 }
