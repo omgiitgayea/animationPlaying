@@ -132,11 +132,6 @@ function startGame() {
         }
 
         function revealField(gameCondition) {
-            //makes all boxes unclickable
-            for (var i = 0; i < document.getElementsByClassName('baseSquare').length; i++) {
-                document.getElementsByClassName('baseSquare')[i].clicked = true;
-            }
-
             //display game over text
             if (gameCondition === 'won')
             {
@@ -150,23 +145,25 @@ function startGame() {
             var field = document.getElementsByClassName('baseSquare');
             gameOver = true;
             for (var i = 0; i < size * size; i++) {
-                field[i].clicked = true;
-                if (isBomb(i)) {
-                    field[i].style.backgroundColor = 'red';
-                    field[i].innerHTML = '';
-                }
-                else {
-                    field[i].style.backgroundColor = 'blue';
-                    checkArea(i);
+                if (!field[i].clicked) {
+                    if (isBomb(i)) {
+                        field[i].style.backgroundColor = 'red';
+                        field[i].innerHTML = '';
+                    }
+                    else {
+                        field[i].style.backgroundColor = 'blue';
+                        checkArea(i);
+                    }
+                    field[i].clicked = true;
                 }
             }
         }
 
-        //find number of bombs surrounding clicked box (this is where the recursion would go, may need to recode)
+        //find number of bombs surrounding clicked box
         function surroundingBombs(box) {
-            if (box >=0 && box < (size * size)) {
+            if (box >=0 && box < (size * size)) {           // check if box is actually part of the grid
                 var thisBox = document.getElementsByClassName('baseSquare')[box];
-                if (!thisBox.clicked) {
+                if (!thisBox.clicked) {         // skip all squares that have already been searched
                     var nearBombs = checkArea(box);
                     thisBox.style.backgroundColor = 'blue';
                     thisBox.clicked = true;
@@ -174,13 +171,13 @@ function startGame() {
                     if (nearBombs === 0) {
                         surroundingBombs(box - size);
                         surroundingBombs(box + size);
-                        if ((box % size) >= 0 && (box % size) < (size - 1))
+                        if ((box % size) >= 0 && (box % size) < (size - 1))         // check if the box is not on the right side
                         {
                             surroundingBombs(box + 1);
                             surroundingBombs(box - size + 1);
                             surroundingBombs(box + size + 1);
                         }
-                        if ((box % size) > 0 && (box % size) <= (size - 1))
+                        if ((box % size) > 0 && (box % size) <= (size - 1))         /// check if the box is not on the left side
                         {
                             surroundingBombs(box - 1);
                             surroundingBombs(box - size - 1);

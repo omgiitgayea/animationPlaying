@@ -48,6 +48,8 @@ header
     font-size: 25px;
     color: white;
     overflow: hidden;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px black;
 }
 .baseRow
 {
