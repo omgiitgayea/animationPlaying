@@ -162,7 +162,6 @@ function startGame() {
             numCorrect++;
             if (nearBombs === 0)
             {
-                surroundingBombs(box - size);
                 console.log('No Bombs!');
             }
         }
