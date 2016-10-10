@@ -21,16 +21,24 @@ header
 
 #gameBoard
 {
-    padding-left: 10px;
-    padding-bottom: 10px;
-    padding-top:10px;
+
+    padding:10px;
     background-color: #761c19;
     box-shadow: 5px 5px 5px black;
     display: none;
     border-radius: 5px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
+#statusBar
+{
+    border: 1px solid black;
+    height: 10px;
+    width: 300px;
+    margin: 0 auto 10px auto;
+    display: none;
+}
 .baseSquare
 {
     background-color: dimgray;

@@ -6,10 +6,10 @@
 function startGame() {
     document.getElementById('gameInit').style.display = 'none';
     document.getElementById('restart').style.display = 'block';
+    document.getElementById('statusBar').style.display = 'block';
 
     var BOMB_RATE = 0.1;
     var BOX_SIZE = 30; //in pixels
-    var GAME_PADDING = 10; //in pixels
     var BOX_BORDER = 1; //in pixels
 
     var size = getSize();
@@ -60,7 +60,7 @@ function startGame() {
             document.getElementById('gameBoard').appendChild(row);
         }
         document.getElementById('gameBoard').style.display = 'block';
-        document.getElementById('gameBoard').style.width = size * (BOX_SIZE + 2 * BOX_BORDER) + GAME_PADDING + 'px';
+        document.getElementById('gameBoard').style.width = size * (BOX_SIZE + 2 * BOX_BORDER) + 'px';
     }
 
     function setBombs() {
@@ -265,6 +265,7 @@ function restartGame() {
     document.getElementById('gameBoard').innerHTML = '';
     document.getElementById('silly').innerHTML = '';
     document.getElementById('flags').innerHTML = '';
+    document.getElementById('statusBar').style.display = 'none';
 }
 // })()
 // function begin ()
