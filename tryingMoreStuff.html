@@ -14,17 +14,19 @@
 
         <div id="gameInit">
             <div>Select your board size:</div>
-
             <input id="fives" type="radio" name="boardSize" value="5" checked><label for="fives">5 &times; 5</label>
             <input id="tens" type="radio" name="boardSize" value="10"><label for="tens">10 &times; 10</label>
             <input id="fifteens" type="radio" name="boardSize" value="15"><label for="fifteens">15 &times; 15</label>
-            <button onclick="startGame()">Start Game</button>
+            <button onclick="myGame.startGame()">Start Game</button>
         </div>
-        <div id="statusBar"></div>
+        <div id="statusBar">
+            <span>Bombs left: </span>
+            <span id="bombValue">0</span>
+            <span>Mystery Squares: </span>
+            <span id="squaresValue"></span>
+        </div>
         <div id="gameBoard"></div>
-        <div id="silly"></div>
-        <div id="flags"></div>
-        <button id="restart" onclick="restartGame()">Restart Game</button>
+        <button id="restart" onclick="myGame.restartGame()">Restart Game</button>
     </div>
 
     <script src="js/mineSweep.js"></script>

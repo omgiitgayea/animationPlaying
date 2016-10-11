@@ -19,9 +19,14 @@ header
     text-align: center;
 }
 
+#gameInit
+{
+    width: 40%;
+    margin: 0 auto;
+}
+
 #gameBoard
 {
-
     padding:10px;
     background-color: #761c19;
     box-shadow: 5px 5px 5px black;
@@ -34,10 +39,10 @@ header
 #statusBar
 {
     border: 1px solid black;
-    height: 10px;
-    width: 300px;
+    width: 40%;
     margin: 0 auto 10px auto;
     display: none;
+    text-align: center;
 }
 .baseSquare
 {
@@ -58,5 +63,6 @@ header
 
 #restart
 {
+    margin: 20px auto;
     display: none;
 }
