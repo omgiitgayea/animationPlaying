@@ -15,3 +15,22 @@
  * Things to consider:
  * - convert string to an array of numbers (since I'm checking that they elements are all numbers)
  **/
+
+var numbers = '1, 2, 3, 4, 5, 6, cookie monster';
+var arrayNumbers = numbers.split(", ");
+console.log(arrayNumbers.length);
+if (arrayNumbers.length != 5)
+{
+    console.log('Hey, I wanted 5 so give me 5!');
+}
+for (var i = 0; i < arrayNumbers.length; i++)
+{
+    if (!Number(arrayNumbers[i]))
+    {
+        console.log(arrayNumbers[i] + ' is not a number! Try again!');
+        break;
+    }
+}
+console.log(arrayNumbers[4]);
+console.log(Number(arrayNumbers[4]));
+
