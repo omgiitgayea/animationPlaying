@@ -46,6 +46,7 @@ var Minesweep = function ()
                     var block = document.createElement('div');
                     block.className = 'baseSquare';
                     block.clicked = false;
+                    block.pickedBomb = false;
                     block.innerHTML = "";
                     block.style.width = BOX_SIZE + 'px';
                     block.style.height = BOX_SIZE + 'px';
@@ -80,10 +81,12 @@ var Minesweep = function ()
                     obj.style.backgroundColor = 'yellow';
                     flagged++;
                     obj.clicked = true;
+                    obj.pickedBomb = true;
                 }
-                else {
+                else if (obj.pickedBomb) {
                     obj.style.backgroundColor = 'dimgray';
                     obj.clicked = false;
+                    obj.pickedBomb = false;
                     obj.innerHTML = '?';
                     flagged--;
                 }
@@ -135,13 +138,13 @@ var Minesweep = function ()
 
             function revealField(gameCondition) {
                 //display game over text
-                if (gameCondition === 'won')
-                {
-                    document.getElementById('silly').innerHTML = 'Yay! You won!';
-                }
-                else {
-                    document.getElementById('silly').innerHTML = 'Awww, you lost :(';
-                }
+                // if (gameCondition === 'won')
+                // {
+                //     document.getElementById('silly').innerHTML = 'Yay! You won!';
+                // }
+                // else {
+                //     document.getElementById('silly').innerHTML = 'Awww, you lost :(';
+                // }
 
                 // reveal the field
                 var field = document.getElementsByClassName('baseSquare');
