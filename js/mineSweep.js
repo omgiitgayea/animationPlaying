@@ -3,6 +3,7 @@
  */
 var Minesweep = function ()
 {
+    var timer;
     this.startGame = function (){
         document.getElementById('gameInit').style.display = 'none';
         document.getElementById('restart').style.display = 'block';
@@ -18,12 +19,23 @@ var Minesweep = function ()
         var flagged = 0;
         var numBombs = Math.round(size * size * BOMB_RATE);
         var gameOver = false;
+        var won = false;
+        var sec = 0;
 
         buildBoard();
         setBombs();
         var boxes = document.getElementsByClassName('baseSquare');
         document.getElementById('bombValue').innerHTML = numBombs;
-        document.getElementById('squaresValue').innerHTML = size * size;
+
+        function pad(value)
+        {
+            return (value > 9 ? value : "0" + value)
+        }
+        timer = setInterval(function () {
+            document.getElementById('seconds').innerHTML = pad(++sec%60);
+            document.getElementById('minutes').innerHTML = pad(parseInt(sec/60),10) + ':';
+        }, 1000);
+        // document.getElementById('squaresValue').innerHTML = size * size;
 
         function getSize() {
             var radios = document.getElementsByName('boardSize');
@@ -56,7 +68,7 @@ var Minesweep = function ()
                     block.oncontextmenu = function (event) {
                         event.preventDefault();
                         flagBox(this);
-                    }
+                    };
                     row.appendChild(block);
                 }
                 document.getElementById('gameBoard').appendChild(row);
@@ -77,8 +89,9 @@ var Minesweep = function ()
         function flagBox(obj) {
             if (!gameOver) {
                 if (!obj.clicked) {
-                    obj.innerHTML = '';
+                    obj.innerHTML = '<i class="fa fa-flag" aria-hidden="true"></i>';
                     obj.style.backgroundColor = 'yellow';
+                    obj.style.color = 'black';
                     flagged++;
                     obj.clicked = true;
                     obj.pickedBomb = true;
@@ -91,7 +104,7 @@ var Minesweep = function ()
                     flagged--;
                 }
                 document.getElementById('bombValue').innerHTML = numBombs - flagged;
-                document.getElementById('squaresValue').innerHTML = size * size - numCorrect - flagged;
+                // document.getElementById('squaresValue').innerHTML = size * size - numCorrect - flagged;
             }
         }
 
@@ -120,14 +133,15 @@ var Minesweep = function ()
 
                 // behavior for if a box is a bomb or not
                 if (isBomb(boxNo)) {
-                    revealField('lost');
+                    revealField(won);
                 }
                 else {
                     surroundingBombs(boxNo);
-                    document.getElementById('squaresValue').innerHTML = size * size - numCorrect - flagged;
+                    // document.getElementById('squaresValue').innerHTML = size * size - numCorrect - flagged;
                     // puzzle solved
                     if (numCorrect === (size * size - numBombs)) {
-                        revealField('won');
+                        won = true;
+                        revealField(won);
                     }
                 }
             }
@@ -136,7 +150,7 @@ var Minesweep = function ()
                 return (bombsArray.indexOf(box) != -1);
             }
 
-            function revealField(gameCondition) {
+            function revealField(winner) {
                 //display game over text
                 // if (gameCondition === 'won')
                 // {
@@ -145,22 +159,49 @@ var Minesweep = function ()
                 // else {
                 //     document.getElementById('silly').innerHTML = 'Awww, you lost :(';
                 // }
-
+                // stop the timer
+                clearInterval(timer);
                 // reveal the field
                 var field = document.getElementsByClassName('baseSquare');
                 gameOver = true;
                 for (var i = 0; i < size * size; i++) {
-                    if (!field[i].clicked) {
+                    // if (!field[i].clicked) {
                         if (isBomb(i)) {
-                            field[i].style.backgroundColor = 'red';
-                            field[i].innerHTML = '';
+                            if (winner)
+                            {
+                                field[i].style.backgroundColor = 'green';
+                                field[i].style.color = 'black';
+                                if (!field[i].pickedBomb) {
+                                    field[i].innerHTML = '<i class="fa fa-bomb" aria-hidden="true"></i>';
+                                }
+                            }
+                            else {
+                                if (field[i].pickedBomb)
+                                {
+                                    field[i].style.backgroundColor = 'green';
+                                }
+                                else {
+                                    field[i].style.backgroundColor = 'red';
+                                    field[i].innerHTML = '<i class="fa fa-bomb" aria-hidden="true"></i>';
+                                    field[i].style.color = 'black';
+                                }
+                            }
+
                         }
                         else {
-                            field[i].style.backgroundColor = 'blue';
-                            checkArea(i);
+                            if (field[i].pickedBomb)
+                            {
+                                field[i].style.backgroundColor = 'red';
+                                field[i].innerHTML = '<i class="fa fa-times"></i>';
+                                field[i].style.color = 'black';
+                            }
+                            else {
+                                field[i].style.backgroundColor = 'blue';
+                                checkArea(i);
+                            }
                         }
                         field[i].clicked = true;
-                    }
+                    // }
                 }
             }
 
@@ -258,7 +299,7 @@ var Minesweep = function ()
                 return num;
             }
         }
-    }
+    };
 
     this.restartGame = function() {
         document.getElementById('gameInit').style.display = 'block';
@@ -266,6 +307,9 @@ var Minesweep = function ()
         document.getElementById('gameBoard').style.display = 'none';
         document.getElementById('gameBoard').innerHTML = '';
         document.getElementById('statusBar').style.display = 'none';
+        clearInterval(timer);
+        document.getElementById('minutes').innerHTML = '00:';
+        document.getElementById('seconds').innerHTML = '00';
     }
 };
 
