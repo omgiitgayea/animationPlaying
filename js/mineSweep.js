@@ -150,15 +150,23 @@ var Minesweep = function ()
                 return (bombsArray.indexOf(box) != -1);
             }
 
+            function startTween() {
+                TweenMax.from($("#gameOver"), 2, {scale: 0, ease:Elastic.easeInOut.config(3), opacity: 0.2});
+            }
+
             function revealField(winner) {
                 //display game over text
-                // if (gameCondition === 'won')
-                // {
-                //     document.getElementById('silly').innerHTML = 'Yay! You won!';
-                // }
-                // else {
-                //     document.getElementById('silly').innerHTML = 'Awww, you lost :(';
-                // }
+                if (winner)
+                {
+                    document.getElementById('gameOver').innerHTML = 'Yay! You won!';
+                    document.getElementById('gameOver').style.color = 'green';
+                }
+                else {
+                    document.getElementById('gameOver').innerHTML = 'Kaboom!!!';
+                    document.getElementById('gameOver').style.color = 'red';
+                }
+                document.getElementById('gameOver').style.display = 'block';
+                startTween();
                 // stop the timer
                 clearInterval(timer);
                 // reveal the field
@@ -307,6 +315,7 @@ var Minesweep = function ()
         document.getElementById('gameBoard').style.display = 'none';
         document.getElementById('gameBoard').innerHTML = '';
         document.getElementById('statusBar').style.display = 'none';
+        document.getElementById('gameOver').style.display = 'none';
         clearInterval(timer);
         document.getElementById('minutes').innerHTML = '00:';
         document.getElementById('seconds').innerHTML = '00';

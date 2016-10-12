@@ -27,9 +27,9 @@ while (!done) {
             valid = true;
         }
         else {
-            var arrayNumbers = numbers.split(", ");
+            var arrayNumbers = numbers.split(",");
             if (arrayNumbers.length != 5) {
-                alert('Hey, I wanted 5 so give me 5!');
+                alert("Hey, I wanted 5 so give me 5!");
             }
             else {
                 valid = true;
@@ -37,7 +37,7 @@ while (!done) {
             if (valid) {
                 for (var i = 0; i < arrayNumbers.length; i++) {
                     if (!Number(arrayNumbers[i])) {
-                        alert(arrayNumbers[i] + ' is not a number! Try again!');
+                        alert(arrayNumbers[i] + " is not a number! Try again!");
                         valid = false;
                         break;
                     }
@@ -68,7 +68,7 @@ function combSort(myArray) {
 
     while (!sorted) {
         gap = Math.floor(gap / shrink);
-        if (gap < 1) {
+        if (gap <= 1) {
             sorted = true;
         }
         for (var i = 0; (i + gap) < myArray.length; i++) {
