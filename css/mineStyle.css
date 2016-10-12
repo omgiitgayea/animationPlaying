@@ -39,7 +39,6 @@ header
 
 #statusBar
 {
-    border: 1px solid black;
     width: 40%;
     margin: 0 auto 10px auto;
     display: none;
