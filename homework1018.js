@@ -41,7 +41,7 @@ function success ()
     spell.style.display = "inline-block";
     TweenMax.from(spell, 2, {opacity: 0, ease:Circ.easeInOut, y: 0});
     setTimeout(function () {
-        disclaimer.innerHTML = "* Note: Zatana says '" + printWords(startingArray) + "' instead of 'Make me a ham sandwich' because magic is very literal...";
+        disclaimer.innerHTML = "* Note: Zatana says &quot;" + printWords(startingArray) + "&quot; instead of &quot;Make me a ham sandwich&quot; because magic is very literal...";
         TweenMax.from(disclaimer, 1, {opacity: 0, ease:Power2.easeInOut, y: 0});
     }, 3000);
 }
@@ -54,7 +54,13 @@ function zatanna(stringArray) {
     for (var j = 0; j < stringArray.length; j++) {
         var backwards = "";
         for (var i = (stringArray[j].length - 1); i >= 0; i--) {
-            backwards += stringArray[j][i];
+            if (j === 0 && i === (stringArray[j].length - 1))
+            {
+                backwards += stringArray[j][i].toUpperCase();
+            }
+            else {
+                backwards += stringArray[j][i].toLowerCase();
+            }
         }
         endingArray.push(backwards);
     }
